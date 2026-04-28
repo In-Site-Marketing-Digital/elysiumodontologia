@@ -194,8 +194,12 @@ app.post("/submit", submitLimiter, async (req, res) => {
       parseField(config.field_message, message);
 
       // Mapeamento dinâmico de Especialidade/Fonte
+      // Suporta qualquer chave de source registrada em page_mappings (geral, implante,
+      // clareamento, alinhador, endodontia, cirurgia, etc.)
       if (req.body.source && config.field_specialty && config.page_mappings) {
-        const optionId = config.page_mappings[req.body.source === 'implante' ? 'implante' : 'geral'];
+        const source = req.body.source;
+        // Tenta a chave exata primeiro; se não existir, usa 'geral' como fallback
+        const optionId = config.page_mappings[source] ?? config.page_mappings['geral'];
         if (optionId) {
           parseField(config.field_specialty, optionId, true);
         }

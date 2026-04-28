@@ -23,8 +23,18 @@ function IconFacebook({ className, style }: { className?: string; style?: React.
   );
 }
 
-const footerLinks = {
-  "Mapa do Site": ["Início", "Sobre nós", "Tratamentos", "Depoimentos"],
+const pageLinks = [
+  { label: "Início",              href: "/" },
+  { label: "Facetas & Lentes",    href: "/facetas" },
+  { label: "Implantes",           href: "/implantes" },
+  { label: "Clareamento",         href: "/clareamento" },
+  { label: "Alinhador Invisível", href: "/alinhador" },
+  { label: "Endodontia",          href: "/endodontia" },
+  { label: "Cirurgia Oral",       href: "/cirurgia" },
+  { label: "Contato",             href: "/contato" },
+];
+
+const infoLinks = {
   "Atendimento": ["Segunda a Sexta: 07h às 19h", "Sábado: 07h às 12h", "Domingo: Fechado"],
   "Endereço": ["St. Central EQ 47/49 Edifício Life Gama", "Gama, Brasília - DF", "CEP: 72405-470"],
 };
@@ -94,8 +104,30 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Links */}
-          {Object.entries(footerLinks).map(([category, links]) => (
+          {/* Site links */}
+          <div className="flex flex-col gap-4">
+            <p
+              className="text-xs font-body font-semibold uppercase tracking-[0.18em]"
+              style={{ color: "#CBB27A" }}
+            >
+              Mapa do Site
+            </p>
+            <ul className="flex flex-col gap-2.5">
+              {pageLinks.map((link) => (
+                <li key={link.href + link.label}>
+                  <a
+                    href={link.href}
+                    className="font-body text-sm text-white/50 hover:text-white/80 transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Info columns */}
+          {Object.entries(infoLinks).map(([category, links]) => (
             <div key={category} className="flex flex-col gap-4">
               <p
                 className="text-xs font-body font-semibold uppercase tracking-[0.18em]"
@@ -106,18 +138,14 @@ export function Footer() {
               <ul className="flex flex-col gap-2.5">
                 {links.map((link) => (
                   <li key={link}>
-                    <a
-                      href={category === "Mapa do Site" ? `#` : undefined}
-                      className={`font-body text-sm text-white/50 transition-colors ${category === "Mapa do Site" ? "hover:text-white/80" : "cursor-default pointer-events-none"}`}
-                    >
-                      {link}
-                    </a>
+                    <span className="font-body text-sm text-white/50 cursor-default">{link}</span>
                   </li>
                 ))}
               </ul>
             </div>
           ))}
         </div>
+
 
         {/* Bottom bar */}
         <div

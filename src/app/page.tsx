@@ -1,29 +1,18 @@
-import { Navbar } from "@/components/Navbar";
-import { HeroSection } from "@/components/HeroSection";
-import { TreatmentsSection } from "@/components/TreatmentsSection";
-import { AboutSection } from "@/components/AboutSection";
-import { ProcessSection } from "@/components/ProcessSection";
-import { ResultsSection } from "@/components/ResultsSection";
-import { VideoTestimonialsSection } from "@/components/VideoTestimonialsSection";
-import { FaqSection } from "@/components/FaqSection";
-import { ContactCTASection } from "@/components/ContactCTASection";
-import { Footer } from "@/components/Footer";
+import type { Metadata } from "next";
+import { HomeContent } from "./HomeContent";
 
-export default function Home() {
-  return (
-    <>
-      <Navbar ctaHref="/contato?source=geral" />
-      <main>
-        <HeroSection />
-        <TreatmentsSection />
-        <AboutSection />
-        <ProcessSection />
-        <ResultsSection />
-        <VideoTestimonialsSection />
-        <FaqSection />
-        <ContactCTASection />
-      </main>
-      <Footer />
-    </>
-  );
+export const metadata: Metadata = {
+  title: "Elysium Odontologia | Gama — DF",
+  description:
+    "A Elysium Odontologia é referência em odontologia estética e de saúde no Gama - DF. Facetas, implantes, clareamento, alinhadores e muito mais com tecnologia de ponta.",
+  keywords: ["odontologia Gama DF", "dentista Gama", "facetas dentárias", "implantes dentários", "Elysium Odontologia"],
+  openGraph: {
+    title: "Elysium Odontologia | Gama — DF",
+    description: "Tecnologia de ponta, técnica refinada e atendimento humanizado. Transforme seu sorriso.",
+    type: "website",
+  },
+};
+
+export default function HomePage() {
+  return <HomeContent />;
 }

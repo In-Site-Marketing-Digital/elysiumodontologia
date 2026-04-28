@@ -85,7 +85,7 @@
 
             <div id="pageMappingBox" class="mt-8 border-t border-teal-50 pt-6 hidden">
               <h3 class="font-bold text-lg text-teal-800 mb-2">Mapeamento de Páginas</h3>
-              <p class="text-xs text-slate-500 mb-4">Atribua uma opção da lista de especialidades para cada página do site.</p>
+              <p class="text-xs text-slate-500 mb-4">Atribua uma opção da lista de especialidades para cada página do site. Deixe em branco para usar o valor da Página Principal como padrão.</p>
               
               <div class="grid md:grid-cols-2 gap-4">
                 <div class="p-4 bg-teal-50/50 rounded-xl border border-teal-100 flex flex-col gap-2">
@@ -93,8 +93,24 @@
                   <select id="mapHome" class="p-2 border rounded text-sm outline-none focus:border-teal-400"></select>
                 </div>
                 <div class="p-4 bg-teal-50/50 rounded-xl border border-teal-100 flex flex-col gap-2">
-                  <label class="text-xs font-bold text-teal-700 uppercase">Página de Implantes</label>
+                  <label class="text-xs font-bold text-teal-700 uppercase">Implantes</label>
                   <select id="mapImplante" class="p-2 border rounded text-sm outline-none focus:border-teal-400"></select>
+                </div>
+                <div class="p-4 bg-teal-50/50 rounded-xl border border-teal-100 flex flex-col gap-2">
+                  <label class="text-xs font-bold text-teal-700 uppercase">Clareamento Dental</label>
+                  <select id="mapClareamento" class="p-2 border rounded text-sm outline-none focus:border-teal-400"></select>
+                </div>
+                <div class="p-4 bg-teal-50/50 rounded-xl border border-teal-100 flex flex-col gap-2">
+                  <label class="text-xs font-bold text-teal-700 uppercase">Alinhador Invisível</label>
+                  <select id="mapAlinhador" class="p-2 border rounded text-sm outline-none focus:border-teal-400"></select>
+                </div>
+                <div class="p-4 bg-teal-50/50 rounded-xl border border-teal-100 flex flex-col gap-2">
+                  <label class="text-xs font-bold text-teal-700 uppercase">Endodontia (Canal)</label>
+                  <select id="mapEndodontia" class="p-2 border rounded text-sm outline-none focus:border-teal-400"></select>
+                </div>
+                <div class="p-4 bg-teal-50/50 rounded-xl border border-teal-100 flex flex-col gap-2">
+                  <label class="text-xs font-bold text-teal-700 uppercase">Cirurgia Oral</label>
+                  <select id="mapCirurgia" class="p-2 border rounded text-sm outline-none focus:border-teal-400"></select>
                 </div>
               </div>
             </div>
@@ -328,14 +344,15 @@
         const enums = field.enums || (field.settings && field.settings.categories) || [];
         enums.forEach(e => opts += `<option value="${e.id}">${e.value || e.name}</option>`);
         
-        document.getElementById('mapHome').innerHTML = opts;
-        document.getElementById('mapImplante').innerHTML = opts;
+        const pageSelects = ['mapHome', 'mapImplante', 'mapClareamento', 'mapAlinhador', 'mapEndodontia', 'mapCirurgia'];
+        pageSelects.forEach(id => document.getElementById(id).innerHTML = opts);
 
         // Restore mapping if exists
         const cfg = kommoStatus.config;
         if(cfg && cfg.page_mappings) {
-          if(cfg.page_mappings.geral) document.getElementById('mapHome').value = cfg.page_mappings.geral;
-          if(cfg.page_mappings.implante) document.getElementById('mapImplante').value = cfg.page_mappings.implante;
+          const keys = ['geral', 'implante', 'clareamento', 'alinhador', 'endodontia', 'cirurgia'];
+          const ids  = pageSelects;
+          keys.forEach((key, i) => { if(cfg.page_mappings[key]) document.getElementById(ids[i]).value = cfg.page_mappings[key]; });
         }
       } else {
         document.getElementById('pageMappingBox').classList.add('hidden');
@@ -351,8 +368,12 @@
         field_message: document.getElementById('kFieldMsg').value,
         field_specialty: document.getElementById('kFieldSpecialty').value,
         page_mappings: {
-          geral: document.getElementById('mapHome').value,
-          implante: document.getElementById('mapImplante').value
+          geral:         document.getElementById('mapHome').value,
+          implante:      document.getElementById('mapImplante').value,
+          clareamento:   document.getElementById('mapClareamento').value,
+          alinhador:     document.getElementById('mapAlinhador').value,
+          endodontia:    document.getElementById('mapEndodontia').value,
+          cirurgia:      document.getElementById('mapCirurgia').value,
         }
       };
       if(!cfg.pipeline_id || !cfg.status_id) return alert('Você deve selecionar Funil e Etapa.');
